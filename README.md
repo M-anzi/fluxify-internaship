@@ -1,2 +1,0 @@
-# fluxify-internaship
-fluxify internaship

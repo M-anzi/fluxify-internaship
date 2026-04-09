@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 01, 2026 at 07:55 AM
+-- Generation Time: Apr 02, 2026 at 08:20 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `courses` (
   `course_id` int(11) NOT NULL,
   `course_name` varchar(100) NOT NULL,
-  `credits` int(11) NOT NULL
+  `credits` int(11) NOT NULL CHECK (`credits` > 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `courses` (
 INSERT INTO `courses` (`course_id`, `course_name`, `credits`) VALUES
 (1, 'Mathematics 101', 3),
 (2, 'Computer Science 101', 4),
-(3, 'Physics 101', 3);
+(3, 'Physics 101', 4);
 
 -- --------------------------------------------------------
 
@@ -50,8 +50,8 @@ INSERT INTO `courses` (`course_id`, `course_name`, `credits`) VALUES
 
 CREATE TABLE `enrollments` (
   `enrollment_id` int(11) NOT NULL,
-  `student_id` int(11) DEFAULT NULL,
-  `course_id` int(11) DEFAULT NULL,
+  `student_id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
   `grade` char(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -60,8 +60,11 @@ CREATE TABLE `enrollments` (
 --
 
 INSERT INTO `enrollments` (`enrollment_id`, `student_id`, `course_id`, `grade`) VALUES
-(1, 1, 1, 'A'),
-(3, 2, 1, 'C');
+(1, 1, 1, 'A+'),
+(2, 1, 2, 'B+'),
+(3, 2, 1, 'B'),
+(4, 2, 3, 'A-'),
+(5, 3, 2, 'A');
 
 -- --------------------------------------------------------
 
@@ -74,7 +77,7 @@ CREATE TABLE `students` (
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `enrollment_date` date DEFAULT NULL
+  `enrollment_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -82,10 +85,11 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`student_id`, `first_name`, `last_name`, `email`, `enrollment_date`) VALUES
-(1, 'Alice', 'Smith', 'alice.new@example.com', '2025-01-10'),
-(2, 'Bob', 'Jones', 'bob@example.com', '2025-01-12'),
-(3, 'Carol', 'White', 'carol@example.com', '2025-01-15'),
-(4, 'David', 'Brown', 'david@example.com', '2025-01-18');
+(1, 'John', 'Doe', 'john.doe@example.com', '2024-09-01'),
+(2, 'Jane', 'Smith', 'jane.smith@example.com', '2024-09-01'),
+(3, 'Alice', 'Johnson', 'alice.j@example.com', '2024-09-02'),
+(4, 'Bob', 'Brown', 'bob.brown@example.com', '2024-09-02'),
+(5, 'Charlie', 'Davis', 'charlie.d@example.com', '2024-09-03');
 
 --
 -- Indexes for dumped tables
@@ -126,13 +130,13 @@ ALTER TABLE `courses`
 -- AUTO_INCREMENT for table `enrollments`
 --
 ALTER TABLE `enrollments`
-  MODIFY `enrollment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `enrollment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
